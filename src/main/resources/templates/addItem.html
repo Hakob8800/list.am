@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Item</title>
+</head>
+<body>
+<form action="/items/add" method="post">
+ title:      <input type="text" name="title"><br>
+ description:<textarea name="description"></textarea><br>
+ category:   <select name="category.id">
+        <option th:each="category : ${categories}"
+        th:text="${category.name}" th:value="${category.id}"></option>
+    </select><br>
+             <input type="submit" value="create">
+</form>
+<a href="/items">Back</a>
+</body>
+</html>
