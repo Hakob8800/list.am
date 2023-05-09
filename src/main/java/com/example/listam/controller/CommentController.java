@@ -27,11 +27,11 @@ public class CommentController {
         Comment comment = new Comment();
         comment.setComment(com);
         Optional<Item> itemOptional = itemRepository.findById(itemId);
-        List<Comment> comments = commentRepository.findByItemId(itemId);
         if (itemOptional.isPresent()) {
             Item item = itemOptional.get();
             comment.setItem(item);
             commentRepository.save(comment);
+            List<Comment> comments = commentRepository.findByItemId(itemId);
             modelMap.addAttribute("comments", comments);
             modelMap.addAttribute("item", item);
         }
