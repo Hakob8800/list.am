@@ -5,13 +5,14 @@
     <title>New Item</title>
 </head>
 <body>
-<form action="/items/add" method="post">
+<form action="/items/add" method="post" enctype="multipart/form-data">
  title:      <input type="text" name="title"><br>
  description:<textarea name="description"></textarea><br>
  category:   <select name="category.id">
         <option th:each="category : ${categories}"
         th:text="${category.name}" th:value="${category.id}"></option>
     </select><br>
+    image:<input type="file" name="image"><br>
              <input type="submit" value="create">
 </form>
 <a href="/items">Back</a>

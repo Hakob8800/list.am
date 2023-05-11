@@ -6,22 +6,23 @@
 </head>
 <body>
 <h2 th:text="${item.title}"></h2>
+<img th:if="${item.getImgName() != null}" th:src="@{/getImage(imageName=${item.getImgName()})}" width="400"/><br>
 <span th:text="${item.description}"></span><br>
 category:<span th:text="${item.category.name}"></span><br><hr>
 <table>
     <tr>
-        <th>act</th>
-<!--        <th>user</th>-->
+        <th>action</th>
+        <th>date</th>
         <th>comments</th>
     </tr>
     <tr th:each="comment : ${comments}">
         <td><a th:href="@{/comments/remove(id=${comment.id},item=${item.id})}">Delete</a></td>
-<!--        <td th:text="${comment.user.name}"></td>-->
+        <td th:text="${comment.commentTime}"></td>
         <td th:text="${comment.comment}"></td>
     </tr>
 </table>
 
-<form action="/comments" method="post">
+<form action="/comments/add" method="post">
     <textarea name="comment"></textarea><br>
     <input type="hidden" th:name="itemId" th:value="${item.id}">
     <input type="submit" value="add comment">

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,33 +22,34 @@ public class CommentController {
     @Autowired
     private ItemRepository itemRepository;
 
-    @PostMapping("/comments")
-    public String saveComment(@RequestParam("comment") String com, @RequestParam("itemId") int itemId,
+    @PostMapping("/comments/add")
+    public String saveComment(@RequestParam("comment") String text, @RequestParam("itemId") int itemId,
                               ModelMap modelMap) {
         Comment comment = new Comment();
-        comment.setComment(com);
+        comment.setComment(text);
+        comment.setCommentTime(new Date());
         Optional<Item> itemOptional = itemRepository.findById(itemId);
         if (itemOptional.isPresent()) {
             Item item = itemOptional.get();
             comment.setItem(item);
             commentRepository.save(comment);
-            List<Comment> comments = commentRepository.findByItemId(itemId);
+            List<Comment> comments = commentRepository.findAllByItemId(itemId);
             modelMap.addAttribute("comments", comments);
             modelMap.addAttribute("item", item);
         }
-        return "/singleItem";
+        return "singleItem";
     }
 
     @GetMapping("/comments/remove")
     public String removeComment(@RequestParam("id") int id, @RequestParam("item") int itemId, ModelMap modelmap) {
         commentRepository.deleteById(id);
         Optional<Item> byId = itemRepository.findById(itemId);
-        List<Comment> comments = commentRepository.findByItemId(itemId);
+        List<Comment> comments = commentRepository.findAllByItemId(itemId);
         if (byId.isPresent()) {
             Item item = byId.get();
             modelmap.addAttribute(item);
         }
         modelmap.addAttribute("comments", comments);
-        return "/singleItem";
+        return "singleItem";
     }
 }

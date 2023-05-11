@@ -10,10 +10,9 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "title")
     private String title;
-    @Column(name = "description")
     private String description;
+    private String imgName;
     @ManyToOne
     private Category category;
 }
